@@ -15,9 +15,8 @@ steps:
     script: |
       tar -czf mongodb-${BUILD_BUILDNUMBER}.tar.gz *.js
       curl -k -v -u $NEXUS_USER:$NEXUS_PASSWORD --upload-file mongodb-${BUILD_BUILDNUMBER}.tar.gz http://172.31.41.54:8081/repository/mongodb-dev/mongodb-${BUILD_BUILDNUMBER}.tar.gz
-      echo mongodb-${BUILD_BUILDNUMBER}.tar.gz >artifact.txt
-      env
-      echo $(Build.SourceVersion)
+      echo $(Build.SourceVersion),mongodb-${BUILD_BUILDNUMBER}.tar.gz >artifact.txt
+      curl -k -v -u $NEXUS_USER:$NEXUS_PASSWORD --upload-file artifact.txt http://172.31.41.54:8081/repository/mongodb-dev/artifact.txt
   displayName: Upload to Nexus
   env:
     NEXUS_PASSWORD: $(NEXUS_PASSWORD)
