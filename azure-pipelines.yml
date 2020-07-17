@@ -1,0 +1,21 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      tar -czf mongodb-${BUILD_BUILDNUMBER}.tar.gz *.js
+      curl -v -u $NEXUS_USER:$NEXUS_PASSWORD --upload-file mongodb-${BUILD_BUILDNUMBER}.tar.gz https://nexus.devopsb48.online/repository/mongodb-dev/mongodb-${BUILD_BUILDNUMBER}.tar.gz
+  displayName: Upload to Nexus
+  env:
+    NEXUS_PASSWORD: $(NEXUS_PASSWORD)
