@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-BUILDNO
+  labels:
+    app: roboshop
+    tier: mongo
+    build: "BUILDNO"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: mongo
+      build: "BUILDNO"
+  template:
+    metadata:
+      labels:
+        tier: mongo
+        build: "BUILDNO"
+    spec:
+      containers:
+        - name: frontend
+          image: rkalluru/b48-mongo:BUILDNO
+          ports:
+            - containerPort: 27017
